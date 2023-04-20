@@ -5,8 +5,69 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Practice16"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="tb1" TextWrapping="Wrap" Text="" Grid.Column="1" Grid.RowSpan="2" />
+        <DataGrid x:Name="dg1"
+                  IsSynchronizedWithCurrentItem="True"
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding}"
+                  Grid.Column="0"
+                  Grid.Row="0" CellEditEnding="dg1_CellEditEnding" CurrentCellChanged="dg1_CurrentCellChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="id"
+                                    Binding="{Binding Id}"
+                                    Header="Id"
+                                    IsReadOnly="True" />
+                <DataGridTextColumn x:Name="lastName"
+                                    Binding="{Binding lastName}"
+                                    Header="Фамилия" />
+                <DataGridTextColumn x:Name="fistName"
+                                    Binding="{Binding firstName}"
+                                    Header="Имя" />
+                <DataGridTextColumn x:Name="middleName"
+                                    Binding="{Binding middleName}"
+                                    Header="Отчество" />
+                <DataGridTextColumn x:Name="email"
+                                    Binding="{Binding email}"
+                                    Header="e-mail" />
+                <DataGridTextColumn x:Name="phoneNumber"
+                                    Binding="{Binding phoneNumber}"
+                                    Header="Номер телефона" />
+            </DataGrid.Columns>
+        </DataGrid>
         
+        <DataGrid x:Name="dg2"
+                  IsSynchronizedWithCurrentItem="True"
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding}"
+                  Grid.Column="0"
+                  Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="goods_id"
+                                    Binding="{Binding ID}"
+                                    Header="Id"
+                                    IsReadOnly="True" />
+                <DataGridTextColumn x:Name="goods_email"
+                                    Binding="{Binding email}"
+                                    Header="e-mail" />
+                <DataGridTextColumn x:Name="goods_code"
+                                    Binding="{Binding code}"
+                                    Header="Код товара" />
+                <DataGridTextColumn x:Name="goods_goodName"
+                                    Binding="{Binding goodName}"
+                                    Header="Наименование товара" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
