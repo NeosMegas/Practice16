@@ -21,8 +21,9 @@
                   SelectionMode="Single"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding}"
+                  CanUserDeleteRows="False"
                   Grid.Column="0"
-                  Grid.Row="0" CellEditEnding="dg1_CellEditEnding" CurrentCellChanged="dg1_CurrentCellChanged">
+                  Grid.Row="0" CellEditEnding="dg1_CellEditEnding" CurrentCellChanged="dg1_CurrentCellChanged" PreviewKeyDown="dg1_PreviewKeyDown" SelectionChanged="dg1_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="id"
                                     Binding="{Binding Id}"
@@ -44,6 +45,11 @@
                                     Binding="{Binding phoneNumber}"
                                     Header="Номер телефона" />
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Очистить базу данных" Click="MenuItem_ClearDB"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
         
         <DataGrid x:Name="dg2"
@@ -51,6 +57,9 @@
                   SelectionMode="Single"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding}"
+                  CanUserDeleteRows="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
                   Grid.Column="0"
                   Grid.Row="1">
             <DataGrid.Columns>

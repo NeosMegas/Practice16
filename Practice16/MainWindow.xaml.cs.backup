@@ -41,16 +41,18 @@ namespace Practice16
             InitializeComponent();
         }
 
+//        private async void PrepareDataSources()
         private void PrepareDataSources()
         {
-            QueryMSSQL();
-            QueryMSAccess();
+            //Task t1 = Task.Factory.StartNew(PrepareMSSQL);
+            //Task t2 = Task.Factory.StartNew(PrepareMSAccess);
+            PrepareMSSQL();
+            PrepareMSAccess();
+            //await Task.WhenAll(t1, t2);
         }
 
-        /// <summary>
-        /// Получение данных из MS SQL
-        /// </summary>
-        private void QueryMSSQL()
+//        private async Task PrepareMSSQL()
+        private void PrepareMSSQL()
         {
             SqlConnectionStringBuilder strCon = new SqlConnectionStringBuilder
             {
@@ -103,18 +105,19 @@ namespace Practice16
                 daSQL.DeleteCommand.Parameters.Add("@Id", SqlDbType.Int, 4, "Id");
 
                 daSQL.Fill(dtSQL);
-                dg1.DataContext = dtSQL.DefaultView;
-            }
+                //await Dispatcher.InvokeAsync(() =>
+                //{
+                    dg1.DataContext = dtSQL.DefaultView;
+                //});
+        }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "PrepareMSSQL");
             }
-        }
+}
 
-        /// <summary>
-        /// Получение данных из БД Access
-        /// </summary>
-        private void QueryMSAccess()
+//        private async Task PrepareMSAccess()
+        private void PrepareMSAccess()
         {
             OleDbConnectionStringBuilder strCon = new OleDbConnectionStringBuilder()
             {
@@ -165,19 +168,17 @@ namespace Practice16
                 daAccess.DeleteCommand.Parameters.Add("@ID", OleDbType.Integer, 4, "ID");
 
                 daAccess.Fill(dtAccess);
-                dg2.DataContext = dtAccess.DefaultView;
-            }
+                //await Dispatcher.InvokeAsync(() =>
+                //{
+                    dg2.DataContext = dtAccess.DefaultView;
+                //});
+        }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "PrepareMSAccess");
             }
-        }
+}
 
-        /// <summary>
-        /// При изменении состояния подключения вывод информации в соответствующую область окна
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private async void SqlConnection_StateChange(object sender, System.Data.StateChangeEventArgs e)
         {
             await Dispatcher.InvokeAsync(() =>
@@ -197,32 +198,17 @@ namespace Practice16
             });
         }
 
-        /// <summary>
-        /// При закрытии окна закрыть подключения
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             connectionSQL.Close();
             connectionAccess.Close();
         }
 
-        /// <summary>
-        /// Подготовка источников данных после загрузки окна
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             PrepareDataSources();
         }
 
-        /// <summary>
-        /// Завершение редактирования существующего или создания нового пользователя
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void dg1_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             if (row != (DataRowView)e.Row.Item)
@@ -239,11 +225,6 @@ namespace Practice16
             }
         }
 
-        /// <summary>
-        /// Редактирование существующего или создание нового пользователя
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void dg1_CurrentCellChanged(object sender, EventArgs e)
         {
             if (row != null)
@@ -283,34 +264,21 @@ namespace Practice16
             }
         }
 
-        /// <summary>
-        /// При изменении выбранной строки в первой таблице, во второй таблице отображаются покупки выбранного пользователя
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void dg1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (daAccess != null && dg1.SelectedItem != null)
-                QueryMSAccess();
-        }
-
-        /// <summary>
-        /// Очистка БД пользователей
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MenuItem_ClearDB(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show("Вы уверены, что хотите полностью очистить базу данных пользователей?", "Очистка базы данных", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (daAccess != null)
             {
-                dg1.SelectedItem = null;
-                foreach (DataRowView drv in dg1.ItemsSource)
-                {
-                    drv.Delete();
-                    daSQL.Update(dtSQL);
-                }
-                dg1.SelectedIndex = 0;
+                //daAccess.SelectCommand.Parameters["@email"].Value = (dg1.SelectedItem as DataRowView).Row[5];
+                //daAccess.Update(dtAccess);
+                //dg2.DataContext = dtAccess.DefaultView;
+                //Dispatcher.Invoke(() => PrepareMSAccess());
+                //Task t2 = Task.Factory.StartNew(PrepareMSAccess);
+                PrepareMSAccess();
             }
+            //string sql = @"SELECT * FROM Goods WHERE Order By Goods.ID";
+            //foreach (OleDbParameter p in daAccess.SelectCommand.Parameters)
+            //    Debug.WriteLine(p.Value);
+
         }
     }
 }
